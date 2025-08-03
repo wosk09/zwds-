@@ -13,12 +13,20 @@ import "./theme/default.css";
  */
 function App() {
   // Состояние для хранения введённых пользователем данных
-  const [formData, setFormData] = useState({
-    birthday: "",
-    birthTime: 0,
-    gender: "female",
-    birthdayType: "solar",
-  });
+  type Gender = 'male' | 'female';
+type BirthdayType = 'solar' | 'lunar';
+
+const [formData, setFormData] = useState<{
+  birthday: string;
+  birthTime: number;
+  gender: Gender;
+  birthdayType: BirthdayType;
+}>({
+  birthday: "",
+  birthTime: 0,
+  gender: "female",
+  birthdayType: "solar",
+});
   const [submitted, setSubmitted] = useState(false);
 
   /**
