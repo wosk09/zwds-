@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from "react";
 import FunctionalAstrolabe from "iztro/lib/astro/FunctionalAstrolabe";
 import "./IzpalaceCenter.css";
 import { Line } from "./Line";
-import Item from "./Item"; // Ensure this path is correct
+import Item from "./Item"; // Импорт компонента Item
 import { fixEarthlyBranchIndex } from "iztro/lib/utils";
 import { Scope } from "iztro/lib/data/types";
 import { IFunctionalHoroscope } from "iztro/lib/astro/FunctionalHoroscope";
@@ -11,7 +11,7 @@ import { normalizeDateStr, solar2lunar } from "lunar-lite";
 import { GenderName, kot, t } from "iztro/lib/i18n";
 import { CHINESE_TIME } from "iztro/lib/data";
 
-// Define ItemProps type
+// Определение типа пропсов для Item
 type ItemProps = {
   title: string;
   content: string | undefined;
