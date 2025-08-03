@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";
 import FunctionalAstrolabe from "iztro/lib/astro/FunctionalAstrolabe";
-import { Item, ItemProps } from "./Item";
 import "./IzpalaceCenter.css";
 import { Line } from "./Line";
 import { fixEarthlyBranchIndex } from "iztro/lib/utils";
@@ -10,6 +9,21 @@ import { IFunctionalHoroscope } from "iztro/lib/astro/FunctionalHoroscope";
 import { normalizeDateStr, solar2lunar } from "lunar-lite";
 import { GenderName, kot, t } from "iztro/lib/i18n";
 import { CHINESE_TIME } from "iztro/lib/data";
+import React from "react";
+
+export type ItemProps = {
+  title: string;
+  content: React.ReactNode;
+};
+
+export const Item: React.FC<ItemProps> = ({ title, content }) => {
+  return (
+    <li className="basic-info-item">
+      <span className="label">{title}</span>
+      <span className="value">{content}</span>
+    </li>
+  );
+};
 
 // Типы свойств для компонента центрального дворца
 type IzpalaceCenterProps = {
