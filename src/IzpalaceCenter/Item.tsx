@@ -333,9 +333,6 @@ export const IzpalaceCenter = ({
         target="_blank"
         rel="noreferrer"
       >
-        <i>
-          Powered by <code>iztro</code>
-        </i>
       </a>
     </div>
   );
