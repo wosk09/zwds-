@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from "react";
 import FunctionalAstrolabe from "iztro/lib/astro/FunctionalAstrolabe";
 import "./IzpalaceCenter.css";
 import { Line } from "./Line";
-import { Item } from "./Item"; // ← Вот это добавь
+import Item from "./Item";
 import { fixEarthlyBranchIndex } from "iztro/lib/utils";
 import { Scope } from "iztro/lib/data/types";
 import { IFunctionalHoroscope } from "iztro/lib/astro/FunctionalHoroscope";
