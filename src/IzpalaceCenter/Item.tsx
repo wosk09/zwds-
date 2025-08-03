@@ -1,14 +1,18 @@
 import React from "react";
+import { ReactNode } from "react";
+import classNames from "classnames";
+import "./IzpalaceCenter.css";
 
-export interface ItemProps {
-  title: string;
-  content: string | undefined;
-}
+export type ItemProps = {
+  title: ReactNode;
+  content: ReactNode;
+};
 
-const Item = ({ title, content }: ItemProps) => (
-  <li>
-    <strong>{title}</strong> {content || "N/A"}
-  </li>
-);
-
-export default Item;
+export const Item = ({ title, content }: ItemProps) => {
+  return (
+    <li className={classNames("iztro-palace-center-item")}>
+      <label>{title}</label>
+      <span>{content}</span>
+    </li>
+  );
+};
