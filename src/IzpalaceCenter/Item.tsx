@@ -1,6 +1,6 @@
 import React from "react";
 
-// Определение типа пропсов для Item
+// Тип пропсов
 export interface ItemProps {
   title: string;
   content: string | undefined;
