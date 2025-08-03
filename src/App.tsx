@@ -1,10 +1,18 @@
-// src/App.tsx
 import React, { useState } from "react";
 import { Iztrolabe } from "./Iztrolabe/Iztrolabe";
 import "./Iztrolabe/Iztrolabe.css";
 import "./theme/default.css";
 
+/**
+ * Основное приложение калькулятора Zi Wei Dou Shu.
+ *
+ * Здесь отображается форма для ввода данных рождения и полов, после отправки
+ * отображается диаграмма астролябии. Все надписи переведены на русский язык,
+ * а звёзды и дворцы выводятся на английском языке благодаря параметру
+ * `lang="en-US"` в компоненте `Iztrolabe`.
+ */
 function App() {
+  // Состояние для хранения введённых пользователем данных
   const [formData, setFormData] = useState({
     birthday: "",
     birthTime: 0,
@@ -13,7 +21,12 @@ function App() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  /**
+   * Обработчик изменений в форме. Обновляет соответствующее поле состояния.
+   */
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -21,6 +34,9 @@ function App() {
     }));
   };
 
+  /**
+   * Обработчик отправки формы. Скрывает форму и показывает астролябий.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
@@ -29,30 +45,54 @@ function App() {
   return (
     <div style={{ padding: "1rem" }}>
       {!submitted && (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Birthday:
-            <input type="date" name="birthday" value={formData.birthday} onChange={handleChange} required />
+        <form onSubmit={handleSubmit} className="zwds-form">
+          <label className="zwds-label">
+            Дата рождения:
+            <input
+              type="date"
+              name="birthday"
+              value={formData.birthday}
+              onChange={handleChange}
+              required
+            />
           </label>
-          <label>
-            Birth Time (0–11):
-            <input type="number" name="birthTime" value={formData.birthTime} onChange={handleChange} min={0} max={11} required />
+          <label className="zwds-label">
+            Время рождения (0–11):
+            <input
+              type="number"
+              name="birthTime"
+              value={formData.birthTime}
+              onChange={handleChange}
+              min={0}
+              max={11}
+              required
+            />
           </label>
-          <label>
-            Gender:
-            <select name="gender" value={formData.gender} onChange={handleChange}>
-              <option value="female">Female</option>
-              <option value="male">Male</option>
+          <label className="zwds-label">
+            Пол:
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+            >
+              <option value="female">Женский</option>
+              <option value="male">Мужской</option>
             </select>
           </label>
-          <label>
-            Birthday Type:
-            <select name="birthdayType" value={formData.birthdayType} onChange={handleChange}>
-              <option value="solar">Solar</option>
-              <option value="lunar">Lunar</option>
+          <label className="zwds-label">
+            Тип даты:
+            <select
+              name="birthdayType"
+              value={formData.birthdayType}
+              onChange={handleChange}
+            >
+              <option value="solar">Солнечная</option>
+              <option value="lunar">Лунная</option>
             </select>
           </label>
-          <button type="submit">Show Chart</button>
+          <button type="submit" className="zwds-button">
+            Показать карту
+          </button>
         </form>
       )}
 
@@ -62,11 +102,17 @@ function App() {
           birthTime={formData.birthTime}
           gender={formData.gender}
           birthdayType={formData.birthdayType}
+          // Лунные месяцы по умолчанию не високосные
           isLeapMonth={false}
+          // Коррекция високосных месяцев по умолчанию включена
           fixLeap={true}
-          lang="zh-CN"
+          // Звёздные названия и названия дворцов выводим на английском
+          lang="en-US"
+          // Тип астролябии: небесная
           astroType="heaven"
+          // Выравнивание центрального дворца по центру отключено
           centerPalaceAlign={false}
+          // Дополнительные параметры расчёта
           options={{ yearDivide: "exact" }}
         />
       )}
@@ -75,4 +121,3 @@ function App() {
 }
 
 export default App;
-
