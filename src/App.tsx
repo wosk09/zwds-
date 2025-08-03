@@ -15,33 +15,41 @@ function App() {
   // Состояние для хранения введённых пользователем данных
   type Gender = 'male' | 'female';
 type BirthdayType = 'solar' | 'lunar';
+function getChineseHourIndex(hour: number, minute: number): number {
+  if (hour === 23 || hour === 0) return 0;
+  return Math.floor((hour + 1) / 2);
+}
 
 const [formData, setFormData] = useState<{
   birthday: string;
-  birthTime: number;
+  birthday: string;
+  birthHour: number;
+  birthMinute: number;
   gender: Gender;
   birthdayType: BirthdayType;
 }>({
   birthday: "",
-  birthTime: 0,
+  birthday: "",
+  birthHour: 12,
+  birthMinute: 0,
   gender: "female",
   birthdayType: "solar",
 });
   const [submitted, setSubmitted] = useState(false);
+const chineseHour = getChineseHourIndex(formData.birthHour, formData.birthMinute);
 
   /**
    * Обработчик изменений в форме. Обновляет соответствующее поле состояния.
    */
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "birthTime" ? parseInt(value) : value,
-    }));
-  };
-
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: parseInt(value) || value,
+  }));
+};
   /**
    * Обработчик отправки формы. Скрывает форму и показывает астролябий.
    */
@@ -65,17 +73,30 @@ const [formData, setFormData] = useState<{
             />
           </label>
           <label className="zwds-label">
-            Время рождения (0–11):
-            <input
-              type="number"
-              name="birthTime"
-              value={formData.birthTime}
-              onChange={handleChange}
-              min={0}
-              max={11}
-              required
-            />
-          </label>
+  Час рождения (0–23):
+  <input
+    type="number"
+    name="birthHour"
+    value={formData.birthHour}
+    onChange={handleChange}
+    min={0}
+    max={23}
+    required
+  />
+</label>
+
+<label className="zwds-label">
+  Минуты:
+  <input
+    type="number"
+    name="birthMinute"
+    value={formData.birthMinute}
+    onChange={handleChange}
+    min={0}
+    max={59}
+    required
+  />
+</label>
           <label className="zwds-label">
             Пол:
             <select
