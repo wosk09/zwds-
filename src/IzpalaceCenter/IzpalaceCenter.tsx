@@ -3,13 +3,19 @@ import React, { useCallback, useMemo } from "react";
 import FunctionalAstrolabe from "iztro/lib/astro/FunctionalAstrolabe";
 import "./IzpalaceCenter.css";
 import { Line } from "./Line";
-import Item from "./Item";
+import Item from "./Item"; // Ensure this path is correct
 import { fixEarthlyBranchIndex } from "iztro/lib/utils";
 import { Scope } from "iztro/lib/data/types";
 import { IFunctionalHoroscope } from "iztro/lib/astro/FunctionalHoroscope";
 import { normalizeDateStr, solar2lunar } from "lunar-lite";
 import { GenderName, kot, t } from "iztro/lib/i18n";
 import { CHINESE_TIME } from "iztro/lib/data";
+
+// Define ItemProps type
+type ItemProps = {
+  title: string;
+  content: string | undefined;
+};
 
 type IzpalaceCenterProps = {
   astrolabe?: FunctionalAstrolabe;
@@ -18,9 +24,7 @@ type IzpalaceCenterProps = {
   horoscopeHour?: number;
   arrowIndex?: number;
   arrowScope?: Scope;
-  setHoroscopeDate?: React.Dispatch<
-    React.SetStateAction<string | Date | undefined>
-  >;
+  setHoroscopeDate?: React.Dispatch<React.SetStateAction<string | Date | undefined>>;
   setHoroscopeHour?: React.Dispatch<React.SetStateAction<number | undefined>>;
   centerPalaceAlign?: boolean;
 };
@@ -38,54 +42,18 @@ export const IzpalaceCenter = ({
 }: IzpalaceCenterProps) => {
   const records: ItemProps[] = useMemo(
     () => [
-      {
-        title: "五行局：",
-        content: astrolabe?.fiveElementsClass,
-      },
-      {
-        title: "年龄(虚岁)：",
-        content: `${horoscope?.age.nominalAge} 岁`,
-      },
-      {
-        title: "四柱：",
-        content: astrolabe?.chineseDate,
-      },
-      {
-        title: "阳历：",
-        content: astrolabe?.solarDate,
-      },
-      {
-        title: "农历：",
-        content: astrolabe?.lunarDate,
-      },
-      {
-        title: "时辰：",
-        content: `${astrolabe?.time}(${astrolabe?.timeRange})`,
-      },
-      {
-        title: "生肖：",
-        content: astrolabe?.zodiac,
-      },
-      {
-        title: "星座：",
-        content: astrolabe?.sign,
-      },
-      {
-        title: "命主：",
-        content: astrolabe?.soul,
-      },
-      {
-        title: "身主：",
-        content: astrolabe?.body,
-      },
-      {
-        title: "命宫：",
-        content: astrolabe?.earthlyBranchOfSoulPalace,
-      },
-      {
-        title: "身宫：",
-        content: astrolabe?.earthlyBranchOfBodyPalace,
-      },
+      { title: "五行局：", content: astrolabe?.fiveElementsClass },
+      { title: "年龄(虚岁)：", content: `${horoscope?.age.nominalAge} 岁` },
+      { title: "四柱：", content: astrolabe?.chineseDate },
+      { title: "阳历：", content: astrolabe?.solarDate },
+      { title: "农历：", content: astrolabe?.lunarDate },
+      { title: "时辰：", content: `${astrolabe?.time}(${astrolabe?.timeRange})` },
+      { title: "生肖：", content: astrolabe?.zodiac },
+      { title: "星座：", content: astrolabe?.sign },
+      { title: "命主：", content: astrolabe?.soul },
+      { title: "身主：", content: astrolabe?.body },
+      { title: "命宫：", content: astrolabe?.earthlyBranchOfSoulPalace },
+      { title: "身宫：", content: astrolabe?.earthlyBranchOfBodyPalace },
     ],
     [astrolabe, horoscope]
   );
@@ -109,9 +77,7 @@ export const IzpalaceCenter = ({
 
     const [year, month, date] = normalizeDateStr(horoscopeDate);
     const dt = new Date(year, month - 1, date);
-    const [birthYear, birthMonth, birthDate] = normalizeDateStr(
-      astrolabe.solarDate
-    );
+    const [birthYear, birthMonth, birthDate] = normalizeDateStr(astrolabe.solarDate);
     const birthday = new Date(birthYear, birthMonth - 1, birthDate);
     let hour = horoscopeHour;
 
@@ -120,11 +86,9 @@ export const IzpalaceCenter = ({
         hour = horoscopeHour + value;
 
         if (horoscopeHour + value > 11) {
-          // 如果大于亥时，则加一天，时辰变为早子时
           dt.setDate(dt.getDate() + 1);
           hour = 0;
         } else if (horoscopeHour + value < 0) {
-          // 如果小于早子时，则减一天，时辰变为亥时
           dt.setDate(dt.getDate() - 1);
           hour = 11;
         }
@@ -155,9 +119,7 @@ export const IzpalaceCenter = ({
 
       const [year, month, date] = normalizeDateStr(dateStr);
       const dt = new Date(year, month - 1, date);
-      const [birthYear, birthMonth, birthDate] = normalizeDateStr(
-        astrolabe.solarDate
-      );
+      const [birthYear, birthMonth, birthDate] = normalizeDateStr(astrolabe.solarDate);
       const birthday = new Date(birthYear, birthMonth - 1, birthDate);
 
       switch (scope) {
@@ -167,7 +129,6 @@ export const IzpalaceCenter = ({
           } else if (horoscopeHour + value < 0) {
             dt.setDate(dt.getDate() - 1);
           }
-
           break;
         case "daily":
           dt.setDate(dt.getDate() + value);
@@ -181,11 +142,7 @@ export const IzpalaceCenter = ({
           break;
       }
 
-      if (dt.getTime() < birthday.getTime()) {
-        return true;
-      }
-
-      return false;
+      return dt.getTime() < birthday.getTime();
     },
     [horoscopeHour, astrolabe]
   );
@@ -199,18 +156,11 @@ export const IzpalaceCenter = ({
       {astrolabe?.earthlyBranchOfSoulPalace && (
         <Line
           scope={arrowScope}
-          index={
-            arrowIndex ??
-            fixEarthlyBranchIndex(astrolabe.earthlyBranchOfSoulPalace)
-          }
+          index={arrowIndex ?? fixEarthlyBranchIndex(astrolabe.earthlyBranchOfSoulPalace)}
         />
       )}
       <h3 className="center-title">
-        <span
-          className={`gender gender-${kot<GenderName>(
-            astrolabe?.gender ?? ""
-          )}`}
-        >
+        <span className={`gender gender-${kot<GenderName>(astrolabe?.gender ?? "")}`}>
           {kot<GenderName>(astrolabe?.gender ?? "") === "male" ? "♂" : "♀"}
         </span>
         <span>基本信息</span>
@@ -229,10 +179,7 @@ export const IzpalaceCenter = ({
           })}
         >
           <Item title="阳历：" content={horoDate.solar} />
-          <span
-            className="today"
-            onClick={() => setHoroscopeDate?.(new Date())}
-          >
+          <span className="today" onClick={() => setHoroscopeDate?.(new Date())}>
             今
           </span>
         </div>
@@ -278,9 +225,7 @@ export const IzpalaceCenter = ({
         >
           ◀时
         </span>
-        <span className="center-horo-hour">
-          {t(CHINESE_TIME[horoscopeHour])}
-        </span>
+        <span className="center-horo-hour">{t(CHINESE_TIME[horoscopeHour])}</span>
         <span
           className={classNames("center-button")}
           onClick={() => onHoroscopeButtonClicked("hourly", 1)}
@@ -316,8 +261,7 @@ export const IzpalaceCenter = ({
         className="iztro-copyright"
         href="https://github.com/sylarlong/iztro"
         target="_blank"
-      >
-      </a>
+      ></a>
     </div>
   );
 };
