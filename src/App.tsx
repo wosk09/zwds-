@@ -97,11 +97,12 @@ function App() {
       )}
 
       {submitted && (
-        <Iztrolabe
+       <Iztrolabe
           birthday={formData.birthday}
           birthTime={formData.birthTime}
-          gender={formData.gender}
-          birthdayType={formData.birthdayType}
+          gender={formData.gender as 'male' | 'female'}
+          birthdayType={formData.birthdayType as 'solar' | 'lunar'}
+
           // Лунные месяцы по умолчанию не високосные
           isLeapMonth={false}
           // Коррекция високосных месяцев по умолчанию включена
