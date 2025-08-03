@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";
 import FunctionalAstrolabe from "iztro/lib/astro/FunctionalAstrolabe";
 import "./IzpalaceCenter.css";
+import Item, { ItemProps } from "./Item";
 import { Line } from "./Line";
 import { fixEarthlyBranchIndex } from "iztro/lib/utils";
 import { Scope } from "iztro/lib/data/types";
